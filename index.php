@@ -23,15 +23,23 @@ require 'vues/v_entete.php';
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
 if ($uc && !$estConnecte) {
     $uc = 'connexion';
-} elseif (empty($uc)) {
+} elseif (!isset($_SESSION['type']) || (empty($uc) && $_SESSION['type'] === null)) {
+    $uc = 'accueil';
+} elseif (isset($_SESSION['type'])&& (empty($uc) && $_SESSION['type'] === 'comptable')){
+    $uc = 'accueilComptable';
+} elseif (isset($_SESSION['type'])&& (empty($uc) && $_SESSION['type'] === 'visiteur')){
     $uc = 'accueil';
 }
+
 switch ($uc) {
 case 'connexion':
     include 'controleurs/c_connexion.php';
     break;
 case 'accueil':
     include 'controleurs/c_accueil.php';
+    break;
+case 'accueilComptable' :
+    include 'controleurs/c_accueilComptable.php';
     break;
 case 'gererFrais':
     include 'controleurs/c_gererFrais.php';
