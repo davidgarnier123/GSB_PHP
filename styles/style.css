@@ -21,3 +21,27 @@
 .orange .panel-body a {
     color : white !important;
 }
+.forfaitise button{
+    margin-top: 2%;
+}
+#tableau{
+    margin-top: 5%;
+    padding: 0%;
+}
+#tableau .entete{
+    background-color:orange;
+}
+#tableau .cellule{
+    border:1px solid orange;
+}
+#tableau .cellule input{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+#tableau .empty{
+    color: transparent;
+}
+.justificatif{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}

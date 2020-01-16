@@ -21,6 +21,7 @@ if (!$uc) {
 
 switch ($action) {
 case 'demandeDeconnexion':
+    include 'vues/v_entete.php';
     include 'vues/v_deconnexion.php';
     break;
 case 'valideDeconnexion':

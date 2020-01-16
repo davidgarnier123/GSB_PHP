@@ -24,13 +24,16 @@ case 'saisirFrais':
     if ($pdo->estPremierFraisMois($idVisiteur, $mois)) {
         $pdo->creeNouvellesLignesFrais($idVisiteur, $mois);
     }
+    include 'vues/v_entete.php';
     break;
 case 'validerMajFraisForfait':
     $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
     if (lesQteFraisValides($lesFrais)) {
         $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
+        include 'vues/v_entete.php';
     } else {
         ajouterErreur('Les valeurs des frais doivent être numériques');
+        include 'vues/v_entete.php';
         include 'vues/v_erreurs.php';
     }
     break;
@@ -40,6 +43,7 @@ case 'validerCreationFrais':
     $montant = filter_input(INPUT_POST, 'montant', FILTER_VALIDATE_FLOAT);
     valideInfosFrais($dateFrais, $libelle, $montant);
     if (nbErreurs() != 0) {
+        include 'vues/v_entete.php';
         include 'vues/v_erreurs.php';
     } else {
         $pdo->creeNouveauFraisHorsForfait(
@@ -49,11 +53,13 @@ case 'validerCreationFrais':
             $dateFrais,
             $montant
         );
+        include 'vues/v_entete.php';
     }
     break;
 case 'supprimerFrais':
     $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
     $pdo->supprimerFraisHorsForfait($idFrais);
+    include 'vues/v_entete.php';
     break;
 }
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);

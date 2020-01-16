@@ -437,7 +437,12 @@ class PdoGsb
             . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
             . 'ORDER BY fichefrais.mois desc'
         );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+         if (isset($_GET['Vid'])) {
+         $requetePrepare->bindParam(':unIdVisiteur', $_GET['Vid'], PDO::PARAM_STR);
+    } else {
+    $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+}
+        
         $requetePrepare->execute();
         $lesMois = array();
         while ($laLigne = $requetePrepare->fetch()) {
@@ -506,4 +511,19 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    /**
+     * Permet de récupérer tout les visiteurs dans la base de donnée dans l'ordre
+     * Alphabétique par rapport au nom des visiteurs
+     * Afin de remplir le ' select ' de la partie validation des frais
+     */
+    public function getAllVisiteur(){
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+                'SELECT visiteur.nom AS Vnom, visiteur.prenom AS Vprenom, visiteur.id AS Vid FROM visiteur '
+                . 'ORDER BY Vnom ASC'
+                );
+        $requetePrepare->execute();
+        $lesVisiteurs = $requetePrepare->fetchAll();
+        return $lesVisiteurs;
+    }
+
 }
