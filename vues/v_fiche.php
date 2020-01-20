@@ -7,22 +7,24 @@
 ?>
 <div class="row">
     <div class="col-lg-4 forfaitise">
-    <h2>Valider la fiche de frais</h2>
+    <h2 class="titre">Valider la fiche de frais</h2>
     <h3>Eléments forfaitisés</h3>
+    <form name="form" action="<?php echo 'index.php?uc=validerFrais&action=choisirFrais&Vid=' . $_GET['Vid'] . '&mois=' . $_GET['mois'] . '&maj=fraisForfait'?>" method="post">
 <label>Forfait Etape</label><br>
-<input value="<?php echo($laFiche[0]['quantite']); ?>"><br>
+<input name="ETP" value="<?php echo($laFiche[0]['quantite']); ?>"><br>
 <label>Frais kilométrique</label><br>
-<input value="<?php echo($laFiche[1]['quantite']); ?>"><br>
+<input name="KM" value="<?php echo($laFiche[1]['quantite']); ?>"><br>
 <label>Nuitée Hôtel</label><br>
-<input value="<?php echo($laFiche[2]['quantite']); ?>"><br>
+<input name="NUI" value="<?php echo($laFiche[2]['quantite']); ?>"><br>
 <label>Repas Restaurant</label><br>
-<input value="<?php echo($laFiche[3]['quantite']); ?>"><br>
-<button type="button" class="btn btn-success"> Corriger </button>
-<button type="button" class="btn btn-danger"> Réinitialiser </button>
-
+<input name="REP" value="<?php echo($laFiche[3]['quantite']); ?>"><br>
+<button type="submit" name="submit" value="Submit" class="btn btn-success"> Corriger </button>
+<button type="submit" name="discard" value="discard" class="btn btn-danger"> Réinitialiser </button>
+    </form>
     </div>
     
     <?php 
+   
         if($horsForfait != null){
     ?>
     <div class="col-lg-12" id="tableau">
@@ -44,24 +46,28 @@
              <?php 
             foreach ($horsForfait as $unHorsForfait) {
         ?>
+            <form name="form" action="" method="post">
             <tr>
                 <td class="col-lg-3 cellule"><input value="<?php echo($unHorsForfait['date']); ?>"></td>
                 <td class="col-lg-3 cellule"><input value="<?php echo($unHorsForfait['libelle']); ?>"></td>
                 <td class="col-lg-3 cellule"><input value="<?php echo($unHorsForfait['montant']); ?>"></td>
                 <td class="col-lg-3 cellule">
-            <button type="button" class="btn btn-success"> Corriger </button> 
+            <button type="submit" class="btn btn-success"> Corriger </button> 
             <button type="button" class="btn btn-danger"> Réinitialiser </button>
                 <td>
         </tr>
+        </form>
        
             <?php } ?>
          </table>
         </div>
     <div class="col-lg-12 justificatif">
     <label>Nombre de justificatifs : </label>
+    <form name="form" action="" method="post">
     <input type="text" value="<?php echo($justificatifs); ?>"> <br><br>
-    <button type="button" class="btn btn-success"> Corriger </button> 
+    <button type="submit" class="btn btn-success"> Corriger </button> 
     <button type="button" class="btn btn-danger"> Réinitialiser </button>
+    </form>
     </div>
     
         <?php } ?>

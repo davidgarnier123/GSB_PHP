@@ -5,10 +5,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 ?>
 <div class="row">  
     <span>Choisir le visiteur : </span>
     <select id="lstVisiteur" name="lstVisiteur" onChange="change_function(this);" class="browser-default custom-select">
+         <option selected="selected" style="color:grey;">Choisir un visiteur</option>
+
         <?php
         
             foreach ($lesVisiteurs as $unVisiteur) {
@@ -41,7 +44,8 @@
 </select>
     <span>Mois : </span>
  <select id="lstMois" name="lstMois" class="browser-default custom-select" onChange="change_mois_function(this);">
-                     
+     <option selected="selected" style="color:grey;">Choisir un mois</option>
+
      <?php
                     foreach ($lesFiches as $unMois) {
                         $mois = $unMois['mois'];
