@@ -10,6 +10,16 @@ $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 switch ($action) {
 case 'choisirFrais':
     $lesVisiteurs = $pdo->getAllVisiteur();
+    if(!isset($_GET['Vid']) && !isset($_GET['mois']) && isset($_GET['search']) && $_POST['name'] !== ''){
+        $leNom = $_POST['name'];
+        $lesVisiteursFilter = [];
+        
+        foreach ($lesVisiteurs as $unVisiteur){
+            if((strpos(strtolower($unVisiteur['Vnom']), strtolower($leNom)) !== false) || (strpos(strtolower($unVisiteur['Vprenom']), strtolower($leNom)) !== false)){
+            array_push($lesVisiteursFilter, $unVisiteur);
+            }
+        }
+    }
     if (isset($_GET['Vid']) && !isset($_GET['mois'])) {
          $lesFiches = $pdo->getLesMoisDisponibles($_GET['Vid']);
          include_once 'vues/v_entete_comptable.php';
@@ -42,7 +52,24 @@ case 'choisirFrais':
         }
         
     } elseif ($_GET['maj'] === 'fraisHorsForfait') {
-        echo 'horsforfait';
+        
+        if(isset($_POST['discard'])){
+            $laFiche = $pdo->getLesFraisHorsForfait($_GET['Vid'], $_GET['mois']);
+            header("Refresh:0; url=index.php?uc=validerFrais&action=choisirFrais&Vid=" . $_GET['Vid'] . "&mois=" . $_GET['mois']);
+        } else {
+        $pdo->majFraisHorsForfait($_GET['Vid'], $_GET['mois'], $_POST['libelle'], $_POST['date'], $_POST['montant'], $_GET['fraisId']);
+        header("Refresh:0; url=index.php?uc=validerFrais&action=choisirFrais&Vid=" . $_GET['Vid'] . "&mois=" . $_GET['mois'] . "&success=true");
+        }
+    } elseif ($_GET['maj'] === 'validationFiche'){
+        
+        if(isset($_POST['discard'])){
+            header("Refresh:0; url=index.php?uc=validerFrais&action=choisirFrais&Vid=" . $_GET['Vid'] . "&mois=" . $_GET['mois']);
+        } else {
+            $pdo->majEtatFicheFrais($_GET['Vid'], $_GET['mois'], 'VA');
+             header("Refresh:0; url=index.php?uc=validerFrais&action=choisirFrais&Vid=" . $_GET['Vid']);
+             echo '<script> alert("La fiche de frais à bien été validé, elle est en cours de paiement."); </script>';
+        }
+       
     }
     
 } elseif (!isset($_GET['Vid']) && !isset($_GET['mois'])){

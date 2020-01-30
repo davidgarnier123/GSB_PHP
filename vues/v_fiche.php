@@ -46,14 +46,14 @@
              <?php 
             foreach ($horsForfait as $unHorsForfait) {
         ?>
-            <form name="form" action="" method="post">
+            <form name="form" action="<?php echo 'index.php?uc=validerFrais&action=choisirFrais&Vid=' . $_GET['Vid'] . '&mois=' . $_GET['mois'] . '&maj=fraisHorsForfait&fraisId=' . $unHorsForfait['id'] ?>" method="post">
             <tr>
-                <td class="col-lg-3 cellule"><input value="<?php echo($unHorsForfait['date']); ?>"></td>
-                <td class="col-lg-3 cellule"><input value="<?php echo($unHorsForfait['libelle']); ?>"></td>
-                <td class="col-lg-3 cellule"><input value="<?php echo($unHorsForfait['montant']); ?>"></td>
+                <td class="col-lg-3 cellule"><input name="date" value="<?php echo($unHorsForfait['date']); ?>"></td>
+                <td class="col-lg-3 cellule"><input name="libelle" value="<?php echo($unHorsForfait['libelle']); ?>"></td>
+                <td class="col-lg-3 cellule"><input name="montant" value="<?php echo($unHorsForfait['montant']); ?>"></td>
                 <td class="col-lg-3 cellule">
             <button type="submit" class="btn btn-success"> Corriger </button> 
-            <button type="button" class="btn btn-danger"> Réinitialiser </button>
+            <button type="submit" name="discard" value="discard" class="btn btn-danger"> Réinitialiser </button>
                 <td>
         </tr>
         </form>
@@ -63,10 +63,11 @@
         </div>
     <div class="col-lg-12 justificatif">
     <label>Nombre de justificatifs : </label>
-    <form name="form" action="" method="post">
-    <input type="text" value="<?php echo($justificatifs); ?>"> <br><br>
-    <button type="submit" class="btn btn-success"> Corriger </button> 
-    <button type="button" class="btn btn-danger"> Réinitialiser </button>
+    
+    <input name="justificatif" type="text" value="<?php echo($justificatifs); ?>"> <br><br>
+    <form name="form" action="<?php echo 'index.php?uc=validerFrais&action=choisirFrais&Vid=' . $_GET['Vid'] . '&mois=' . $_GET['mois'] . '&maj=validationFiche'?>" method="post">
+    <button type="submit" class="btn btn-success"> Valider </button> 
+    <button type="submit" name="discard" value="discard" class="btn btn-danger"> Réinitialiser </button>
     </form>
     </div>
     

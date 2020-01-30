@@ -7,6 +7,3 @@
  */
 
 ?>
-<h2>
-    choisir une fiche pour suivre son paiement
-</h2>
