@@ -66,6 +66,11 @@ case 'choisirFrais':
             header("Refresh:0; url=index.php?uc=validerFrais&action=choisirFrais&Vid=" . $_GET['Vid'] . "&mois=" . $_GET['mois']);
         } else {
             $pdo->majEtatFicheFrais($_GET['Vid'], $_GET['mois'], 'VA');
+            $lesFrais = $pdo->getLesFraisForfait($_GET['Vid'], $_GET['mois']);
+            $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($_GET['Vid'], $_GET['mois']);
+            $pdo->calculTotalFrais($_GET['Vid'], $_GET['mois'], $lesFrais, $lesFraisHorsForfait);
+
+            
              header("Refresh:0; url=index.php?uc=validerFrais&action=choisirFrais&Vid=" . $_GET['Vid']);
              echo '<script> alert("La fiche de frais à bien été validé, elle est en cours de paiement."); </script>';
         }

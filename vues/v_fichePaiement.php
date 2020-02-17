@@ -14,7 +14,8 @@ if($Infos[0] === "RB"){
 <?php
 } else {
  ?>
-<h2 class="titre" style="text-decoration:underline">La fiche est en cours de paiement</h2>
+<h2 class="titre" style="text-decoration:underline">La fiche est en cours de paiement</h2><br><br>
+<span style="border:1px solid orange;padding:10px;font-size:18px;">Remboursement : <?php echo($Infos[3]); ?>€ </span>
 <?php
 }
 ?>

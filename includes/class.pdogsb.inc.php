@@ -624,4 +624,51 @@ class PdoGsb
         }
         return $lesMois;
     }
+    
+    public function calculTotalFrais($idVisiteur, $mois, $lesFrais, $lesFraisHorsForfait){
+            $ETP = $lesFrais[0]['quantite'];
+            $KM = $lesFrais[1]['quantite'];
+            $NUI = $lesFrais[2]['quantite'];
+            $REP = $lesFrais[3]['quantite'];
+            
+            $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT fraisforfait.montant AS montant FROM fraisforfait '
+            . 'ORDER BY fraisforfait.id asc'
+        );
+            $requetePrepare->execute();
+            $lesTarifs = $requetePrepare->fetchAll();
+            if(!empty($lesFraisHorsForfait)){
+                $totalFraisHorsForfait = 0;
+                foreach ($lesFraisHorsForfait as &$value) {
+                    $totalFraisHorsForfait = $totalFraisHorsForfait + (double)$value['montant'];
+                }
+            }
+            
+        
+            $totalFraisForfait = (((double)$ETP * (double)$lesTarifs[0]['montant']) +
+                          ((double)$KM * (double)$lesTarifs[1]['montant']) +
+                          ((double)$NUI * (double)$lesTarifs[2]['montant']) +
+                          ((double)$REP * (double)$lesTarifs[3]['montant']));
+            
+            if(!empty($lesFraisHorsForfait)){
+                $totaux = ($totalFraisForfait + $totalFraisHorsForfait) ;
+            } else {
+                $totaux = $totalFraisForfait;
+            }
+           
+            
+            // requête pour ajouter le montant validé
+           $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE ficheFrais '
+            . 'SET montantvalide = :unMontant, datemodif = now() '
+            . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+            . 'AND fichefrais.mois = :unMois'
+            );
+           
+        $requetePrepare->bindParam(':unMontant', $totaux, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        
+    }
 }

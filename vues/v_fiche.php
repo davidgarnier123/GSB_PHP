@@ -64,14 +64,15 @@
     <div class="col-lg-12 justificatif">
     <label>Nombre de justificatifs : </label>
     
-    <input name="justificatif" type="text" value="<?php echo($justificatifs); ?>"> <br><br>
-    <form name="form" action="<?php echo 'index.php?uc=validerFrais&action=choisirFrais&Vid=' . $_GET['Vid'] . '&mois=' . $_GET['mois'] . '&maj=validationFiche'?>" method="post">
-    <button type="submit" class="btn btn-success"> Valider </button> 
-    <button type="submit" name="discard" value="discard" class="btn btn-danger"> Réinitialiser </button>
-    </form>
+    <input name="justificatif" type="text" value="<?php echo($justificatifs); ?>" disabled> <br><br>
     </div>
     
         <?php } ?>
-        
+    
+    <div class="col-lg-12 validation">
+<form name="form" action="<?php echo 'index.php?uc=validerFrais&action=choisirFrais&Vid=' . $_GET['Vid'] . '&mois=' . $_GET['mois'] . '&maj=validationFiche'?>" method="post">
+    <button type="submit" class="btn btn-success"> Valider la fiche de frais</button>
+    </form>
+    </div>
        
        
