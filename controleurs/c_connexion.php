@@ -13,7 +13,7 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
+require "vues/v_entete.php";
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 if (!$uc) {
     $uc = 'demandeconnexion';
