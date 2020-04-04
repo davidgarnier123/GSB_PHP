@@ -583,18 +583,20 @@ class PdoGsb
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'SELECT fichefrais.mois AS mois FROM fichefrais '
             . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
-            . 'AND fichefrais.idetat = "VA"'
-            . 'OR fichefrais.idetat = "RB"'
+            . 'AND (fichefrais.idetat = "VA" OR fichefrais.idetat = "RB")'
+
             . 'ORDER BY fichefrais.mois desc'
         );
          if (isset($_GET['Vid'])) {
          $requetePrepare->bindParam(':unIdVisiteur', $_GET['Vid'], PDO::PARAM_STR);
-    } else {
-    $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-}
-        $requetePrepare->execute();
-        $lesMois = array();
-        while ($laLigne = $requetePrepare->fetch()) {
+         $requetePrepare->execute();
+
+         $count = $requetePrepare->rowCount();
+         
+         $lesMois = array();
+
+        if( $count > 0  ){
+            while ($laLigne = $requetePrepare->fetch()) {
             $mois = $laLigne['mois'];
             $numAnnee = substr($mois, 0, 4);
             $numMois = substr($mois, 4, 2);
@@ -603,8 +605,16 @@ class PdoGsb
                 'numAnnee' => $numAnnee,
                 'numMois' => $numMois
             );
+            
         }
-        return $lesMois;
+       
+        }
+        
+        
+    } else {
+
+    }
+         return $lesMois;
     }
     
     /*
